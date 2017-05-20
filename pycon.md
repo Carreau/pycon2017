@@ -237,7 +237,6 @@ The `python_requires` keyword in known only by setuptools versions > 24.3.
 
 ### pip >= 9.0.1
 
-From PyPI:
 Versions of pip < 9 ignore `data-requires-python` attributes. 
 
 This will result in installing incompatible versions.
