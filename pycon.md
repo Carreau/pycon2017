@@ -538,4 +538,13 @@ Two.
 - You should contribute — there's tonnes of low hanging fruit!
 - Add tests, clean up the codebase, or bring features from PyPI to Warehouse.
 
+-- 
+
+# Thanks !
+
+Python 2 \u2661 Python 3
+
+(that's a ♡ ) <!-- .element: class="fragment" data-fragment-index="1" -->
+
+
 
