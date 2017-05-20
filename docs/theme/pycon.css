@@ -53,6 +53,10 @@ body {
   color: #29648d;
 }
 
+/* fix for first slidewith background. */
+h2#ending-python2-compatibility-in-a-user-friendly-manner {
+    color: #cc0000;
+}
 
 .reveal.has-dark-background h1, .reveal.has-dark-background h2, .reveal.has-dark-background h3, .reveal.has-dark-background h4, .reveal.has-dark-background h5, .reveal.has-dark-background h6 {
   color: #fff; }
