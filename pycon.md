@@ -305,7 +305,7 @@ Updates the `release_files` table backing PyPI-legacy and Warehouse
 [PEP 503](https://www.python.org/dev/peps/pep-0503/) defines `/simple/`
 repositories formats. 
 
-Require Python info is surfaced in the `data-requires-python` attribute
+Require Python inside the `data-requires-python` attribute
 
 -- 
 
@@ -317,7 +317,7 @@ Require Python info is surfaced in the `data-requires-python` attribute
 <a href="…/pip-6.0.4.tar.gz" >pip-6.0.4.tar.gz</a><br/>
 <a href="…/pip-0.3.1.tar.gz" >pip-0.3.1.tar.gz</a><br/>
 <a href="…/pip-1.0.1.tar.gz" >pip-1.0.1.tar.gz</a><br/>
-<a data-requires-python=">=2.6,!=3.0.*" href="…/pip-9.0.1.tar.gz" >pip-9.0.1.tar.gz</a><br/>
+<a data-requires-python="&gt;=2.6,!=3.0.*" href="…/pip-9.0.1.tar.gz" >pip-9.0.1.tar.gz</a><br/>
 ```
 
 --
@@ -327,11 +327,6 @@ Require Python info is surfaced in the `data-requires-python` attribute
 Pip 9+ checks `data-requires-python` before downloading 
 
 -- 
-
-**N.B.**: If you are running (or maintain) a PyPI proxy please make sure it surfaces 
-new `data-requires-python`. PEP 503 
-
---
 
 
 <!--## The pull requests on The GitHub.-->
@@ -347,7 +342,6 @@ new `data-requires-python`. PEP 503
 
 <!--Thanks PyPA team !-->
 
---
 
 ## Tying it together 
 
@@ -355,21 +349,27 @@ Setuptools, PyPI, Wareshouse and pip are updated and deployed!
 
 --
 
-## Call to packaging tool maintainers
+## Alternative packaging tool/service maintainers
 
-* many have already been updated 
-    * flit, twine
-* be among there number (so I can give you free advertising) 
+As of yesterday, PEP 518 implementation was merged 
+
+**`pyproject.toml` is now valid**!
+
+many tools/services are already compatible, e.g., `flit` and `twine`
 
 --
 
 ## Call to all package maintainers
 
 * Use tools and services that respect Require-Python
+	* pip 9+
+	* setuptools >24.2
 
-### Most of all: 
+But, most of all: 
 
-* Tell your users to update pip!
+--
+
+# Tell users to update pip!
 
 ---- 
 
@@ -381,10 +381,10 @@ Some helpful principles to keep your users as happy as possible
 
 --
 
-1. Update your documentation and scripts to use `pip`.
+1. Update your documentation, CIs, and scripts to use `pip`.
 
 2. Keep `setup.py` and `__init__.py` python 2 compatible,  
-   but have them err early. 
+   but catch errors early. 
 
    <!-- .element: class="fragment" data-fragment-index="1" -->
 
@@ -400,19 +400,13 @@ Some helpful principles to keep your users as happy as possible
 Update your documentation and scripts to use `pip install [-e] .`. 
 
 Reiteration: Do not use `python setup.py <…>`;  
-it ignores `requires_python`.
-
--- 
-
-### PEP 518 was merged!
-
-PEP 518 implementation was merged yesterday `pyproject.toml`
+it ignores `requires_python` and `pyproject.toml`
 
 -- 
 
 ## Keep `setup.py` python 2 compatible. 
 
-If your `setup.py` most probable reason: 
+If `setup.py` runs most probable reason: 
 
 **pip < 9**. 
 
@@ -477,10 +471,18 @@ and above is required.
 
 Two. 
 
-- During RC: `python setup.py install` got 6.0 on Python 2 – now documented.
+- During RC: `python setup.py install` got 6.0 on Python 2
 
-- "My Bad I did not read the error message"
+Remember: don't use `python setup.py`!
 
+   <!-- .element: class="fragment" data-fragment-index="1" -->
+
+-- 
+
+> My Bad. I thought the pip upgrade error message was irrelevant —  
+when I upgrade pip it works.
+
+Remember: upgrade `pip`!
 ---- 
 
 # Conclusions
@@ -507,9 +509,11 @@ Two.
 
 # Thanks!
 
-Python 2 \u2661 Python 3
+Python 3 \u2661 Python 2 
 
-(that's a ♡ ) <!-- .element: class="fragment" data-fragment-index="1" -->
+(that's a ♡) <!-- .element: class="fragment" data-fragment-index="1" -->
 
+Slides at: http://bit.ly/pycon2017-build-bridges
 
+@mpacer & @Mbussonn
 
