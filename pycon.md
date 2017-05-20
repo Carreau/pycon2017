@@ -496,24 +496,16 @@ Two.
 
 --
 
-## On switching your package to Python3 only 
+## On converting packages to Python3 only 
 
 - use packaging tools that respect `Requires_Python`
 - encourage everyone, everywhere to use pip 9+
 - follow defensive packaging practices 
 - Read and contribute to python3statement practicalities section
 
---
-## On contributing to packaging infrastructure 
+----
 
-- We've improved the documentation of both warehouse and PyPI, to make new
-  contributions easier.
-- You should contribute — there's tonnes of low hanging fruit!
-- Add tests, clean up the codebase, or bring features from PyPI to Warehouse.
-
--- 
-
-# Thanks !
+# Thanks!
 
 Python 2 \u2661 Python 3
 
