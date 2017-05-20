@@ -14,7 +14,7 @@ revealOptions:
 
 M Bussonnier & M Pacer
 
-Slides available at https://short.url
+Slides available at http://bit.ly/pycon2017-build-bridges
 
 ----
 
