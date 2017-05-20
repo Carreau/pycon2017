@@ -268,11 +268,17 @@ This will result in installing incompatible versions.
 
 -- 
 
-Great! How do we use it?
+Great! Now what? How do we use it?
 
 -- 
 
-## Setuptools
+## Patch all the things!
+
+![allthethings](all2.jpg)
+
+--
+
+## Build: Setuptools
 
 As of [setuptools 24.2](https://github.com/pypa/setuptools/pull/631/): 
 
@@ -288,151 +294,135 @@ Note: @xavfernandez for making that possible.
 
 -- 
 
-## PyPI
+## Upload: PyPI & Warehouse
 
-[PEP 503](https://www.python.org/dev/peps/pep-0503/) defines how content is
-formatted in `/simple/` repositories. 
+Updates the `release_files` table backing PyPI-legacy and Warehouse
 
-Require-Python info is specified in `data-requires-python` attribute
+-- 
 
-Pip check `data-requires-python` **before** downloading the sdist.  
+## Surface: PyPI
 
-Note: There's no need to download all sdists just to discover their incompatibility. 
+[PEP 503](https://www.python.org/dev/peps/pep-0503/) defines `/simple/`
+repositories formats. 
+
+Require Python info is surfaced in the `data-requires-python` attribute
+
 -- 
 
 ### view-source:https://pypi.python.org/simple/pip/
 
 ```html
 <!DOCTYPE html><html><head><title>Links for pip</title></head><body><h1>Links for pip</h1>
-<a href="…/pip-1.3.tar.gz" >pip-1.3.tar.gz</a><br/>
 <a href="…/pip-8.0.0-py2.py3-none-any.whl" >pip-8.0.0-py2.py3-none-any.whl</a><br/>
 <a href="…/pip-6.0.4.tar.gz" >pip-6.0.4.tar.gz</a><br/>
 <a href="…/pip-0.3.1.tar.gz" >pip-0.3.1.tar.gz</a><br/>
 <a href="…/pip-1.0.1.tar.gz" >pip-1.0.1.tar.gz</a><br/>
 <a data-requires-python=">=2.6,!=3.0.*" href="…/pip-9.0.1.tar.gz" >pip-9.0.1.tar.gz</a><br/>
-<a href="…/pip-1.0.2.tar.gz" >pip-1.0.2.tar.gz</a><br/>
-<a href="…/pip-0.3.tar.gz" >pip-0.3.tar.gz</a><br/>
-<a href="…/pip-0.8.2.tar.gz" >pip-0.8.2.tar.gz</a><br/>
-<a href="…/pip-0.2.1.tar.gz" >pip-0.2.1.tar.gz</a><br/>
-⋮
 ```
+
+--
+
+## Install : Pip
+
+Pip 9+ checks `data-requires-python` before downloading 
 
 -- 
 
 **N.B.**: If you are running (or maintain) a PyPI proxy please make sure it surfaces 
 new `data-requires-python`. PEP 503 
 
--- 
-
-## Pip
-
-Pip 9+ checks `data-requires-python`.
-
-https://github.com/pypa/pip/pull/3877
-
-In the same place that pip process the wheel filenames (to get 
-`-py2` , `-py3` suffixes) and filter "compatible" files.
-
-That's the main reason you want final users to upgrade to pip 9+ if you are not
-on pip 9+, pip will consider incompatible packages, download them and ... fail
-at some point. 
-
--- 
-
-## Patching PyPI & Warehouse: PyPI-legacy
-
-You likely know PyPI-legacy, that's usually where most people download their
-packages from when then `pip install`.
-
-But PyPI is old, its testing is sparse, and its documentation is not always
-accurate. It's not easy to run PyPI locally.
-
--- 
- 
-## Patching PyPI & Warehouse: Warehouse
-The PyPA stated developing Warehouse (the new, improved PyPI) with 100% test
-coverage and solid documentation. 
-
-It even has a one liner to run it locally using Docker!
-
---
-
-## Patching PyPI & Warehouse: Postgres
-
-PyPI and warehouse are connected to the same Postgres database.  So any updates
-need to be coördinated between them. And one of them is not tested.
-
--- 
-
-## Patch all the things. 
-
-![allthethings](all2.jpg)
-
 --
 
 
-## The pull requests on The GitHub.
+<!--## The pull requests on The GitHub.-->
 
-- https://github.com/pypa/warehouse/pull/1513
-- https://github.com/pypa/warehouse/pull/1448
-- https://github.com/pypa/warehouse/pull/1448
-- https://github.com/pypa/warehouse/pull/1268
-- https://github.com/pypa/pypi-legacy/pull/524
-- https://github.com/pypa/pypi-legacy/pull/506
+<!--- https://github.com/pypa/warehouse/pull/1513-->
+<!--- https://github.com/pypa/warehouse/pull/1448-->
+<!--- https://github.com/pypa/warehouse/pull/1448-->
+<!--- https://github.com/pypa/warehouse/pull/1268-->
+<!--- https://github.com/pypa/pypi-legacy/pull/524-->
+<!--- https://github.com/pypa/pypi-legacy/pull/506-->
+<!--- https://github.com/pypa/pip/pull/3877-->
 
 
-Thanks PyPA team !
+<!--Thanks PyPA team !-->
 
 --
 
 ## Tying it together 
 
-Pip, setuptools, PyPI, Wareshouse frountend & Postgress backend now updated and
-deployed !
+Setuptools, PyPI, Wareshouse and pip are updated and deployed!
 
-You now mostly Just need to worry about Pip
+--
 
+## Call to packaging tool maintainers
+
+* many have already been updated 
+    * flit, twine
+* be among there number (so I can give you free advertising) 
+
+--
+
+## Call to all package maintainers
+
+* Use tools and services that respect Require-Python
+
+### Most of all: 
+
+* Tell your users to update pip!
 
 ---- 
 
 # Defensive packaging
 
+Even if you adhere to that, problems will arise.
+
+Some helpful principles to keep your users as happy as possible
+
+--
+
 1. Update your documentation and scripts to use `pip`.
 
 2. Keep `setup.py` and `__init__.py` python 2 compatible,  
    but have them err early. 
+
    <!-- .element: class="fragment" data-fragment-index="1" -->
 
 3. For clear error messages in complicated situations,   
    use multiple lines.
+
    <!-- .element: class="fragment" data-fragment-index="2" -->
 
 --
 
-## Direct users to `pip install`
+## Tell everyone to `pip install`
 
 Update your documentation and scripts to use `pip install [-e] .`. 
 
 Reiteration: Do not use `python setup.py <…>`;  
 it ignores `requires_python`.
 
-(And pep 518 implementation has been merged yesterday hooray `pyproject.toml` !)
+-- 
+
+### PEP 518 was merged!
+
+PEP 518 implementation was merged yesterday `pyproject.toml`
 
 -- 
 
-## Keep ``setup.py`` python 2 compatible. 
+## Keep `setup.py` python 2 compatible. 
 
-If installation fails before `setup()`, the most probable reason: 
+If your `setup.py` most probable reason: 
 
 **pip < 9**. 
 
-Catch this, and don't let installation finish!
+Don't just say your package is incompatible with `python2`.
 
-Instead: explicitly ask users to update pip.
+Instead: Ask users to update pip.
 
 --
 
-E.g.,: in `setup.py`, before `setup()`: 
+E.g.,: in `setup.py`:
 
 ```python
 if sys.version_info < (3, 3):
@@ -451,7 +441,8 @@ Make sure you have pip >= 9.0.1.
 
 ## Keep `__init__.py` python 2 compatible
 
-Users will still find ways to avoid `pip` and `setup.py`. e.g.:
+Users will still find ways to avoid `pip` and `setup.py`.  
+E.g.:
 
 ```bash
 $ pip install -e . 
@@ -460,7 +451,8 @@ $ git pull  # update without install
 ```
 
 --
-E.g., in `__init__.py` before module imports:
+
+E.g., in `__init__.py`: 
 
 ```python
 import sys
@@ -470,11 +462,6 @@ if sys.version_info < (3,3):
 IPython 6.0+ does not support Python 2.6, 2.7, 3.0,
 3.1, or 3.2. Beginning with IPython 6.0, Python 3.3
 and above is required.
-
-See IPython `README.rst` file for more information:
-
-    https://github.com/ipython/ipython/blob/master/README.rst
-
 """)
 ```
 
@@ -482,17 +469,7 @@ See IPython `README.rst` file for more information:
 
 # Results
 
-## IPython 6.0, \#downloads:
-
-### First Week:
-  - Pip 9 - Python 3 : 45 586 
-  - Pip 8 - Python 2 : 92 386  
-\> 2×, not good
-
-### Second Week:
-  - Pip 9 - Python 3 : 48 389 
-  - Pip 8 - Python 2 : 13 293  
-\> 0.25 ×, still not great, but better!
+![all the graphs](combined_ipython_graphs.png)
 
 -- 
 
@@ -505,9 +482,6 @@ Two.
 - "My Bad I did not read the error message"
 
 ---- 
-
-
-
 
 # Conclusions
 
@@ -523,12 +497,11 @@ Two.
 --
 
 ## On switching your package to Python3 only 
-- upgrade setuptools
-- use pip 9+, encourage your users to do the same
-- fix your documentation (use pip, not `setup.py`!)
-- catch early in py2 compatible `__init__.py` and `setup.py`
+
+- use packaging tools that respect `Requires_Python`
+- encourage everyone, everywhere to use pip 9+
+- follow defensive packaging practices 
 - Read and contribute to python3statement practicalities section
-  - questions, gotchas, &c.
 
 --
 ## On contributing to packaging infrastructure 
